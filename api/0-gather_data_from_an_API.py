@@ -8,7 +8,7 @@ if __name__ == "__main__":
     base_url = "https://jsonplaceholder.typicode.com"
 
     user = requests.get("{}/users/{}".format(base_url, employee_id)).json()
-    todos = requests.get("{}/todos".format(base_url),
+    todos = requests.get(
         "{}/todos".format(base_url),
         params={"userId": employee_id}
     ).json()
