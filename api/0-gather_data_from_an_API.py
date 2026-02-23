@@ -13,7 +13,7 @@ if __name__ == "__main__":
         params={"userId": employee_id}
     ).json()
 
-    employee_name = user.get("name")
+    employee_name = user.get("username")
     completed_tasks = [t for t in todos if t.get("completed") is True]
 
     print("Employee {} is done with tasks({}/{}):".format(
