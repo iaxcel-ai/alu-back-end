@@ -9,7 +9,9 @@ if __name__ == "__main__":
 
     user = requests.get("{}/users/{}".format(base_url, employee_id)).json()
     todos = requests.get("{}/todos".format(base_url),
-                        params={"userId": employee_id}).json()
+        "{}/todos".format(base_url),
+        params={"userId": employee_id}
+    ).json()
 
     employee_name = user.get("name")
     completed_tasks = [t for t in todos if t.get("completed") is True]
