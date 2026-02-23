@@ -4,24 +4,25 @@ import json
 import requests
 
 if __name__ == "__main__":
-    users = requests.get(
-        "https://jsonplaceholder.typicode.com/users").json()
-    todos = requests.get(
-        "https://jsonplaceholder.typicode.com/todos").json()
+    base = "https://jsonplaceholder.typicode.com"
+    users = requests.get("{}/users".format(base)).json()
+    todos = requests.get("{}/todos".format(base)).json()
 
-    user_map = {user.get('id'): user.get('username') for user in users}
+    user_map = {}
+    for user in users:
+        user_map[user["id"]] = user["username"]
 
     all_tasks = {}
     for task in todos:
-        user_id = task.get('userId')
-        user_id_str = str(user_id)
-        if user_id_str not in all_tasks:
-            all_tasks[user_id_str] = []
-        all_tasks[user_id_str].append({
-            "username": user_map[user_id],
-            "task": task.get('title'),
-            "completed": task.get('completed')
+        uid = task["userId"]
+        uid_str = str(uid)
+        if uid_str not in all_tasks:
+            all_tasks[uid_str] = []
+        all_tasks[uid_str].append({
+            "username": user_map[uid],
+            "task": task["title"],
+            "completed": task["completed"]
         })
 
-    with open("todo_all_employees.json", "w") as jsonfile:
-        json.dump(all_tasks, jsonfile)
+    with open("todo_all_employees.json", "w") as f:
+        json.dump(all_tasks, f)
