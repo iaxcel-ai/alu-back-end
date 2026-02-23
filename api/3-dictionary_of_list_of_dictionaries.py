@@ -5,12 +5,11 @@ import requests
 
 
 if __name__ == "__main__":
-    users = requests.get(
-        "https://jsonplaceholder.typicode.com/users"
-    ).json()
-    todos = requests.get(
-        "https://jsonplaceholder.typicode.com/todos"
-    ).json()
+    users_url = "https://jsonplaceholder.typicode.com/users"
+    todos_url = "https://jsonplaceholder.typicode.com/todos"
+
+    users = requests.get(users_url).json()
+    todos = requests.get(todos_url).json()
 
     all_data = {}
     for user in users:
@@ -22,7 +21,7 @@ if __name__ == "__main__":
                 "task": t.get("title"),
                 "completed": t.get("completed")
             }
-            for t in todos if t.get("userId") == user.get("id")
+            for t in todos if str(t.get("userId")) == user_id
         ]
 
     with open("todo_all_employees.json", "w") as f:
