@@ -21,6 +21,9 @@ def main():
 
     # Fetch todos
     todos_resp = requests.get(f"{base_url}/todos")
+    if todos_resp.status_code != 200:
+        sys.exit(1)
+
     todos = todos_resp.json()
 
     user_map = {}
@@ -36,7 +39,7 @@ def main():
             all_tasks[user_id_str] = []
 
         all_tasks[user_id_str].append({
-            "username": user_map[user_id],
+            "username": user_map.get(user_id),
             "task": task.get('title'),
             "completed": task.get('completed')
         })
@@ -44,7 +47,7 @@ def main():
     filename = "todo_all_employees.json"
 
     with open(filename, mode="w", encoding="utf-8") as jsonfile:
-        json.dump(all_tasks, jsonfile)
+        json.dump(all_tasks, jsonfile, ensure_ascii=False, indent=2)
 
 if __name__ == "__main__":
     main()
