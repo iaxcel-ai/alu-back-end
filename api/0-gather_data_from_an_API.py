@@ -13,10 +13,15 @@ if __name__ == "__main__":
         params={"userId": employee_id}
     ).json()
 
-    employee_name = user.get("username")
+    employee_name = user.get("name")
     completed_tasks = [t for t in todos if t.get("completed") is True]
 
-    print("Employee {} is done with tasks({}/{}):".format(
-        employee_name, len(completed_tasks), len(todos)))
+    output = "Employee {} is done with tasks({}/{}):\n".format(
+        employee_name, len(completed_tasks), len(todos))
     for task in completed_tasks:
-        print("\t {}".format(task.get("title")))
+        output += "\t {}\n".format(task.get("title"))
+
+    print(output, end="")
+
+    with open("student_output", "w") as f:
+        f.write(output)
